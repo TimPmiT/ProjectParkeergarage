@@ -5,6 +5,7 @@ public class Simulator {
     private CarQueue entranceCarQueue;
     private CarQueue paymentCarQueue;
     private CarQueue exitCarQueue;
+    private CarQueue membersCarQueue;
     private SimulatorView simulatorView;
 
     private int day = 0;
@@ -24,6 +25,8 @@ public class Simulator {
         entranceCarQueue = new CarQueue();
         paymentCarQueue = new CarQueue();
         exitCarQueue = new CarQueue();
+        //voor de 1e opdracht de carque voor members
+        membersCarQueue = new CarQueue();
         simulatorView = new SimulatorView(3, 6, 30);
     }
 
@@ -32,6 +35,14 @@ public class Simulator {
             tick();
         }
     }
+    
+    //week 1
+    //main method (makes us able to actually run the project) 
+    public static void main (String[] args) {
+    	Simulator sim = new Simulator();
+    	sim.run();
+    }
+
 
     private void tick() {
         // Advance the time by one minute.
@@ -59,10 +70,22 @@ public class Simulator {
         double standardDeviation = averageNumberOfCarsPerHour * 0.1;
         double numberOfCarsPerHour = averageNumberOfCarsPerHour + random.nextGaussian() * standardDeviation;
         int numberOfCarsPerMinute = (int)Math.round(numberOfCarsPerHour / 60);
+   
+        // Calculates the number of members that arrive each minute.
+        // voor opdracht week 1
+        int amountOfPassHolders = 150;
+        double numberOfMembersPerHour = (amountOfPassHolders / 6) + random.nextGaussian() * standardDeviation;
+        int numberOfMembersPerMinute = (int)Math.round(numberOfMembersPerHour / 60);
 
         // Add the cars to the back of the queue.
         for (int i = 0; i < numberOfCarsPerMinute; i++) {
             Car car = new AdHocCar();
+            entranceCarQueue.addCar(car);
+        }
+        
+        //voor de member (opdracht week 1) 
+        for (int i = 0; i < numberOfMembersPerMinute ; i++) {
+            Car car = new ParkingPassHolder();
             entranceCarQueue.addCar(car);
         }
 
@@ -90,11 +113,28 @@ public class Simulator {
             if (car == null) {
                 break;
             }
+        
             car.setIsPaying(true);
+            //if a car isn't a member it goes to the payment queue else it goes to the members queue.
+            //opgaven voor week 1
+            if(!(car instanceof ParkingPassHolder)){
             paymentCarQueue.addCar(car);
+            } else { 
+            	membersCarQueue.addCar(car);
+            	simulatorView.removeCarAt(car.getLocation());
+            }
         }
-
+      //the members queue 
+        //opgavn voor week 1 
+        for (int i = 0; i < exitSpeed; i++) {
+            Car car = membersCarQueue.removeCar();
+            if (car == null) {
+                break;
+            }
+            // Bye!
+        }
         // Let cars pay.
+        
         for (int i = 0; i < paymentSpeed; i++) {
             Car car = paymentCarQueue.removeCar();
             if (car == null) {
@@ -104,8 +144,10 @@ public class Simulator {
             simulatorView.removeCarAt(car.getLocation());
             exitCarQueue.addCar(car);
         }
+        
 
         // Let cars leave.
+        
         for (int i = 0; i < exitSpeed; i++) {
             Car car = exitCarQueue.removeCar();
             if (car == null) {
