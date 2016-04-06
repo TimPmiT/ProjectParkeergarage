@@ -173,6 +173,7 @@ public class SimulatorView extends JFrame {
                 carParkImage = createImage(size.width, size.height);
             }
             //updated colours with green for members and red for normal customers.
+            //opg week 1 
             Graphics graphics = carParkImage.getGraphics();
             for(int floor = 0; floor < getNumberOfFloors(); floor++) {
                 for(int row = 0; row < getNumberOfRows(); row++) {
