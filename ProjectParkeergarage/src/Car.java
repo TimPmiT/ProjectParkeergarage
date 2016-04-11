@@ -5,6 +5,8 @@ public abstract class Car {
     private boolean isPaying;
     //voor de opdracht
     private boolean isMember;
+    //voor de opg week2
+    private boolean hasReservation;
 
     /**
      * Constructor for objects of class Car
@@ -12,7 +14,10 @@ public abstract class Car {
     public Car() {
     	//default van het membership is false (voor normalCustomer)
     	isMember = false; 
+    	//a car objec has no reservation by default.
+    	hasReservation = false; 
     }
+    
 
     public Location getLocation() {
         return location;
@@ -50,6 +55,14 @@ public abstract class Car {
        //check if ismember is true in the simulator class, then let it skip payment if true. 
 	public boolean getIsMember(){
 		return isMember; 
+	}
+	
+	public void setHasReservation(){
+		hasReservation = true; 
+	}
+	
+	public boolean getHasReservation(){
+		return hasReservation; 
 	}
 	    
 	    

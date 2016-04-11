@@ -185,6 +185,9 @@ public class SimulatorView extends JFrame {
                         	color = Color.white;
                         } else if(car instanceof ParkingPassHolder) {
                         	color = Color.green;
+                        	//blue, week 2 reservation people 
+                        } else if(car instanceof ReservationHolder){
+                        	color = Color.blue; 
                         } else {
                         	color = Color.red;
                         }

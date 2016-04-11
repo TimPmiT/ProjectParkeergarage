@@ -36,6 +36,17 @@ public class Simulator {
         }
     }
     
+    //week 2 a random number
+    final int randInt(int min, int max){
+    	
+    	Random rand;
+    	rand = new Random();
+    	
+    	int randNum = rand.nextInt((max - min) + min); 
+    	
+    	return randNum;
+    }
+    
     //week 1
     //main method (makes us able to actually run the project) 
     public static void main (String[] args) {
@@ -65,7 +76,8 @@ public class Simulator {
         int averageNumberOfCarsPerHour = day < 5
                 ? weekDayArrivals
                 : weekendArrivals;
-
+        
+        
         // Calculate the number of cars that arrive this minute.
         double standardDeviation = averageNumberOfCarsPerHour * 0.1;
         double numberOfCarsPerHour = averageNumberOfCarsPerHour + random.nextGaussian() * standardDeviation;
@@ -76,6 +88,25 @@ public class Simulator {
         int amountOfPassHolders = 150;
         double numberOfMembersPerHour = (amountOfPassHolders / 6) + random.nextGaussian() * standardDeviation;
         int numberOfMembersPerMinute = (int)Math.round(numberOfMembersPerHour / 60);
+        
+        /*amount of reservable spaces: 50
+         * max stay time: 360 minutes (6 hour)
+         * min stay time: 120 minutes (2 hour)
+         * 
+         * 50 spaces can support a maximum of 200 visitors a day
+         * (24 h / 6 h = 4 customers per space per day * 50 spaces = 200 customers max)
+         * However places probably won't be reserved late at night and people probably won't stay the max time every time.
+         * Estimate 90 to 130 customers a day
+         * 
+         * (to be safe we should only allow 90% of the spaces to be reserved (so 45)) 
+         */
+        
+        int amountOfReservations = randInt(110, 130);
+        double numberOfReservationsPerHour = (amountOfReservations / 4) + random.nextGaussian() * standardDeviation;
+        int numberOfReservationsPerMinute = (int)Math.round(numberOfReservationsPerHour / 60);
+        
+        	
+        
 
         // Add the cars to the back of the queue.
         for (int i = 0; i < numberOfCarsPerMinute; i++) {
@@ -88,7 +119,14 @@ public class Simulator {
             Car car = new ParkingPassHolder();
             entranceCarQueue.addCar(car);
         }
-
+        
+        //voor de reservatie (opdracht week 2)
+        //will be added to the membersExitQueue
+        for (int i = 0; i < numberOfReservationsPerMinute ; i++) {
+            Car car = new ReservationHolder();
+            entranceCarQueue.addCar(car);
+        }
+        
         // Remove car from the front of the queue and assign to a parking space.
         for (int i = 0; i < enterSpeed; i++) {
             Car car = entranceCarQueue.removeCar();
@@ -99,8 +137,15 @@ public class Simulator {
             Location freeLocation = simulatorView.getFirstFreeLocation();
             if (freeLocation != null) {
                 simulatorView.setCarAt(freeLocation, car);
+                //voor week 2 
+                if(car instanceof ReservationHolder){
+                	int stayMinutes = (int) (randInt(120, 360));
+                	 car.setMinutesLeft(stayMinutes);
+                } else {
                 int stayMinutes = (int) (15 + random.nextFloat() * 10 * 60);
+                
                 car.setMinutesLeft(stayMinutes);
+                }
             }
         }
 
@@ -117,7 +162,8 @@ public class Simulator {
             car.setIsPaying(true);
             //if a car isn't a member it goes to the payment queue else it goes to the members queue.
             //opgaven voor week 1
-            if(!(car instanceof ParkingPassHolder)){
+            //instanceof ReservationHolder is for week2 
+            if(!(car instanceof ParkingPassHolder || car instanceof ReservationHolder)){
             paymentCarQueue.addCar(car);
             } else { 
             	membersCarQueue.addCar(car);
@@ -166,4 +212,5 @@ public class Simulator {
             e.printStackTrace();
         }
     }
+    
 }
