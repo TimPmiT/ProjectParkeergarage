@@ -1,8 +1,6 @@
 package model;
 
-import java.util.Random;
-
-
+import model.*;
 
 /**
  * This class is used to create a certain type of Car; AdHocCar.
@@ -17,14 +15,5 @@ public class AdHocCar extends Car {
 	 */
 	public AdHocCar(){
 	setIsNormalCustomer(); 
-
-	Random random = new Random(); 
-	
-	minutesStay = (int) (15 + random.nextFloat() * 10 * 60);
-	
 	}
-	
-
-		
-	
 }

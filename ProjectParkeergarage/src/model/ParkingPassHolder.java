@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Random;
-
 import model.Car;
 
 /**
@@ -20,10 +18,7 @@ public class ParkingPassHolder extends Car {
 	//the parkingpass holder, this customer can swoowsh to the end of the que without playing locally
 	  public ParkingPassHolder() {
 		  setIsMember(); 
-		  Random random = new Random(); 
-			
-			minutesStay = (int) (15 + random.nextFloat() * 10 * 60);
 		  
 	  }
-	
+
 }
