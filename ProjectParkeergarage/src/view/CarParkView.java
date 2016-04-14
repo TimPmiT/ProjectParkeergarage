@@ -27,10 +27,11 @@ public class CarParkView extends AbstractView{
      */
     public CarParkView(CarParkLogic model) {
         super(model);
-        this.title = new JLabel("Representation of the Car Park");
+        title = new JLabel("Representation of the car Park");
+        title.setFont(new Font("SansSerif", Font.BOLD, 14));
         // this.totalCars = new JLabel("Cars");
         // this.totalPassholders = new JLabel("Pass holders");
-        this.size = new Dimension(0, 0); // TODO veranderen?
+        size = new Dimension(0, 0); // TODO veranderen?
 
         // Put the labels on a specific place on the jpanel.
         title.setBounds(5, 5, 150, 10);
@@ -72,6 +73,7 @@ public class CarParkView extends AbstractView{
 
         // totalCars.setText(Language.get("cars")+ carPark.getTotalCarIndex());
         // totalPassholders.setText(Language.get("pass")+carPark.getTotalPassholderIndex());
+        
         // Create a new car park image if the size has changed.
         if (!size.equals(getSize())) {
             size = getSize();

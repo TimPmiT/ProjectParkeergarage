@@ -43,10 +43,10 @@ public class RunController extends AbstractController implements ActionListener 
 		add(steps);
 		add(startSteps);
 		add(stopSteps);
-		stepOne.setBounds(50, 10, 70, 30);
-		steps.setBounds(140, 10, 70, 30);
-		startSteps.setBounds(229, 10, 70, 30);
-		stopSteps.setBounds(319, 10, 70, 30);
+		stepOne.setBounds(220, 10, 100, 30);
+		steps.setBounds(330, 10, 70, 30);
+		startSteps.setBounds(420, 10, 70, 30);
+		stopSteps.setBounds(510, 10, 70, 30);
 
 		setVisible(true);
 	}
@@ -67,7 +67,7 @@ public class RunController extends AbstractController implements ActionListener 
 	@Override
 	/**
 	 * Making the buttons and text field of this controller react to input of the user.
-	 * Saving the input to the model life.
+	 * Saving the input to the model carPark.
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==stepOne) {
@@ -91,7 +91,7 @@ public class RunController extends AbstractController implements ActionListener 
 		}
 		
 		if (e.getSource()==stopSteps) {
-			Life.run = false;
+			CarPark.run = false;
 		}
 		
 	}

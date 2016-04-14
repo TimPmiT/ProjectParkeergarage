@@ -8,8 +8,8 @@ import main.*;
  * @version 1.0 (11-4-2016)
  * 
  */
-public class LifeRunner {
+public class CarParkRunner {
 	public static void main(String[] args) {
-		new Life();
+		new CarPark();
 	}
 }

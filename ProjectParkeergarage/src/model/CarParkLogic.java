@@ -11,8 +11,8 @@ import java.util.Random;
  * This class stores all the data with respect to the placing of the cars
  * in the car park. Also it has methods to change this data.
  *
- * @author Femke Hoornveld
- * @version 2.0 (11-04-2016)
+ * @author Femke Hoornveld, Thomas Lambregts
+ * @version 3.0 (12-04-2016)
  */
 public class CarParkLogic extends AbstractModel {
     private static int numberOfFloors;
@@ -34,9 +34,16 @@ public class CarParkLogic extends AbstractModel {
     int weekDayArrivals= 50; // average number of arriving cars per hour
     int weekendArrivals = 90; // average number of arriving cars per hour
 
-    int enterSpeed = 3; // number of cars that can enter per minute
-    int paymentSpeed = 10; // number of cars that can pay per minute
-    int exitSpeed = 9; // number of cars that can leave per minute
+    int enterSpeed;
+    int paymentSpeed;
+    int exitSpeed; 
+    
+    // Keeping track of statistics
+    int numberOfEnteringCars; // how many cars are in entranceCarQueue
+    int numberOfPayingCars; // how many cars are in paymentCarQueue
+    int numberOfExitingCars; // how many cars are in exitCarQueue
+    int totalCars; // amount of no member cars in car park 
+    int totalPassHolders; // amount of members in car park
 
     /**
      * Constructor of the CarPark. It initializes the fields and creates the
@@ -51,10 +58,20 @@ public class CarParkLogic extends AbstractModel {
         this.numberOfRows = numberOfRows;
         this.numberOfPlaces = numberOfPlaces;
 
-        this.entranceCarQueue = new CarQueue();
-        this.paymentCarQueue = new CarQueue();
-        this.membersCarQueue = new CarQueue();
-        this.exitCarQueue = new CarQueue();
+        entranceCarQueue = new CarQueue();
+        paymentCarQueue = new CarQueue();
+        membersCarQueue = new CarQueue();
+        exitCarQueue = new CarQueue();
+        
+        enterSpeed = 3; // number of cars that can enter per minute
+        paymentSpeed = 10; // number of cars that can pay per minute
+        exitSpeed = 9; // number of cars that can leave per minute
+        
+        numberOfEnteringCars = 0;
+        numberOfPayingCars = 0;
+        numberOfExitingCars = 0;
+        totalCars = 0;
+        totalPassHolders = 0;
 
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
         
@@ -150,11 +167,59 @@ public class CarParkLogic extends AbstractModel {
     /**
      * Get queue of all the cars are exiting the car park.
      *
-     * @return cars Return the queue with all cars eexiting
+     * @return cars Return the queue with all cars exiting
      */
     public CarQueue getExitCarQueue() {
         return exitCarQueue;
     }
+    
+    /**
+     * Change entering speed.
+     * 
+     * @param newSpeed The speed the user wants to change the entering speed to.
+     */
+    public void setEnterSpeed(int newSpeed) {
+    	enterSpeed = newSpeed;
+    }
+    
+    /**
+     * Change entering speed.
+     * 
+     * @param newSpeed The speed the user wants to change the payment speed to.
+     */
+    public void setPaySpeed(int newSpeed) {
+    	paymentSpeed = newSpeed;
+    }
+    
+    /**
+     * Change entering speed.
+     * 
+     * @param newSpeed The speed the user wants to change the exiting speed to.
+     */
+    public void setExitSpeed(int newSpeed) {
+    	exitSpeed = newSpeed;
+    }
+    
+    /**
+     * @return enterSpeed The speed with which cars currently are entering per minute.
+     */
+	public int getEnterSpeed() {
+		return enterSpeed;
+	}
+	
+    /**
+     * @return paymentSpeed The speed with which car owners currently are paying per minute.
+     */
+	public int getPaySpeed() {
+		return paymentSpeed;
+	}
+	
+    /**
+     * @return exitSpeed The speed with which cars currently areexiting per minute.
+     */
+	public int getExitSpeed(){
+		return exitSpeed;
+	}
 
     /**
      * Executes one simulation step, it advances the time by one minute.
@@ -197,12 +262,16 @@ public class CarParkLogic extends AbstractModel {
         for (int j = 0; j < numberTotalCarsPerMinute; j++) { 
             for (int i = 0; i < numberOfCarsPerMinute; i++) {
                 Car car = new AdHocCar();
+                numberOfEnteringCars++;
+                totalCars++;
                 entranceCarQueue.addCar(car);
             }
             
             // Add the cars of members to the back of the entrance queue.
             for (int i = 0; i < numberOfMembersPerMinute ; i++) {
                 Car car = new ParkingPassHolder();
+                numberOfEnteringCars++;
+                totalPassHolders++;
                 entranceCarQueue.addCar(car);
             }
 
@@ -217,6 +286,8 @@ public class CarParkLogic extends AbstractModel {
 
             if (car == null) {
                 break;
+            } else {
+            	numberOfEnteringCars--;
             }
             // Find a space for this car.
             Location freeLocation = this.getFirstFreeLocation();
@@ -241,7 +312,8 @@ public class CarParkLogic extends AbstractModel {
             //if a car isn't a member it goes to the payment queue else it goes to the members queue,
             // members pay monthly so they don't need to pay.
             if(!(car instanceof ParkingPassHolder)){
-            paymentCarQueue.addCar(car);
+	            paymentCarQueue.addCar(car);
+	            numberOfPayingCars++;
             } else { 
                 membersCarQueue.addCar(car);
                 this.removeCarAt(car.getLocation());
@@ -256,11 +328,14 @@ public class CarParkLogic extends AbstractModel {
             super.notifyViews(); // TODO wil ik dit toevoegen? Koen had dit
             if (car == null) {
                 break;
+            } else {
+                numberOfPayingCars--;
             }
-            // TODO Handle payment.
+
             this.removeCarAt(car.getLocation());
             super.notifyViews(); // TODO wil ik dit toevoegen? Koen had dit
             exitCarQueue.addCar(car);
+            numberOfExitingCars++;
 
             super.notifyViews(); // TODO wil ik dit toevoegen? Koen had dit
         }
@@ -271,6 +346,9 @@ public class CarParkLogic extends AbstractModel {
             Car car = exitCarQueue.removeCar();
             if (car == null) {
                 break;
+            } else {
+                totalCars--;
+                numberOfExitingCars--;	
             }
             super.notifyViews(); // TODO wil ik dit toevoegen? Koen had dit
             // Bye!
@@ -281,6 +359,8 @@ public class CarParkLogic extends AbstractModel {
             Car car = membersCarQueue.removeCar();
             if (car == null) {
                 break;
+            } else {
+                totalPassHolders--;
             }
             super.notifyViews(); // TODO wil ik dit toevoegen? Koen had dit
             // Bye!
@@ -380,6 +460,41 @@ public class CarParkLogic extends AbstractModel {
         cars[location.getFloor()][location.getRow()][location.getPlace()] = null;
         car.setLocation(null);
         return car;
+    }
+    
+    /**
+     * @return numberOfEnteringCars
+     */
+    public int getNumberOfEntering() {
+        return numberOfEnteringCars;
+    }
+
+    /**
+     * @return numberOfPayingCars
+     */
+    public int getNumberOfPaying() {
+        return numberOfPayingCars;
+    }
+
+    /**
+     * @return numberOfExitingCars
+     */
+    public int getNumberOfExiting() {
+        return numberOfExitingCars;
+    }
+    
+    /**
+     * @return totalCars Return total number of no member cars in car park
+     */
+    public int getTotalCars() {
+        return totalCars;
+    }
+
+    /**
+     * @return totalCars Return total number of members in car park
+     */
+    public int getTotalPassHolders() {
+        return totalPassHolders;
     }
 }
 
