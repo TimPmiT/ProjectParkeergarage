@@ -16,6 +16,7 @@ public class CarPark {
 	private JFrame screen;
 //	private AbstractView fieldView;
 	private AbstractView statView;
+	private AbstractView revenueView; 
 	private AbstractView carParkView;
 	private AbstractView pieView;
 	private AbstractView statPieView;
@@ -43,6 +44,7 @@ public class CarPark {
 		statPieView = new StatPieView(carPark);
 //		fieldView = new FieldView(lifelogic);
 		statView = new StatView(carPark);
+		revenueView = new RevenueView(carPark); 
 		
 		screen=new JFrame("Car park simulation");
 		screen.setSize(1000, 1000);
@@ -56,13 +58,15 @@ public class CarPark {
 		screen.getContentPane().add(runController);
 		screen.getContentPane().add(settingsController);
 //		screen.getContentPane().add(initController);
+		screen.getContentPane().add(revenueView);
 //		fieldView.setBounds(10, 10, 200, 200);
 		statView.setBounds(50, 390, 220, 300);
 		carParkView.setBounds(50, 10, 700, 300);
-		pieView.setBounds(300, 390, 400, 200);
-		statPieView.setBounds(300, 590, 400, 150);
+		pieView.setBounds(300, 390, 400, 210);
+		statPieView.setBounds(300, 600, 400, 150);
 		runController.setBounds(0, 320, 700, 50);
 		settingsController.setBounds(760, 10, 200, 300);
+		revenueView.setBounds(700, 390, 250, 300);
 //		initController.setBounds(440, 10, 90, 130);
 		screen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		screen.setVisible(true);
@@ -73,7 +77,7 @@ public class CarPark {
         carParkView.updateView();
 
         run = true;
-        tickPause = 1000;
+        tickPause = 500;
 
         while(true){
             if (run) {

@@ -1,5 +1,10 @@
 package model;
 
+import model.*;
+import java.util.Random; 
+
+
+
 /**
  * This class creates in stances of the object car. A car can enter, pay and leave the car park.
  * The car has a certain amount of time it is parked. The car has a specific location where the car
@@ -14,13 +19,24 @@ public abstract class Car extends AbstractModel {
     private boolean isPaying;
     //voor de opdracht
     private boolean isMember;
+ 
+    private boolean hasReservation;
+    
+    //test to see if this fixes crashing
+    private boolean isNormalCustomer;
+    
+    protected int minutesStay; 
 
+
+    
     /**
      * Constructor for objects of class Car
      */
     public Car() {
     	//default van het membership is false (voor normalCustomer)
     	isMember = false; 
+    	
+    	
     }
 
     public Location getLocation() {
@@ -60,7 +76,38 @@ public abstract class Car extends AbstractModel {
 	public boolean getIsMember(){
 		return isMember; 
 	}
-	    
+	
+	public void setHasReservation(){
+		hasReservation = true; 
+	}
+	
+	public boolean getHasReservation(){
+		return hasReservation; 
+	}
+	
+	public void setIsNormalCustomer(){
+		isNormalCustomer = true;
+	}
+	
+	public boolean getIsNormalCustomer(){
+		return isNormalCustomer; 
+	}
+	
+	public int getStayTime(){
+		
+		return minutesStay; 
+		
+	}
+	   
+	 public int randInt(int min, int max){
+	    	
+	    	Random rand;
+	    	rand = new Random();
+	    	
+	    	int randNum = rand.nextInt((max - min) + min); 
+	    	
+	    	return randNum;
+	  }
 	    
 
 }

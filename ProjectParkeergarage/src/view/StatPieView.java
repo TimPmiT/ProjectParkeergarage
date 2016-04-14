@@ -18,9 +18,12 @@ public class StatPieView extends AbstractView {
     private JLabel amountOfCars;
     private JLabel legendGreen;
     private JLabel amountOfPassHolders;
+    private JLabel legendGray;
+    private JLabel amountOfTotal;
 
 	private int amountCars;
 	private int amountPassHolders;
+	private int amountTotal;
 
     /**
      * Constructor creates an instance of the StatPieView.
@@ -40,6 +43,8 @@ public class StatPieView extends AbstractView {
         amountOfCars = new JLabel("");
         legendGreen = new JLabel("GREEN Pass holders:");
         amountOfPassHolders = new JLabel("");
+        legendGray = new JLabel("GRAY   Total:");
+        amountOfTotal = new JLabel("");
 
 		this.setLayout(null);
         add(title);
@@ -47,12 +52,16 @@ public class StatPieView extends AbstractView {
         add(amountOfCars);
         add(legendGreen);
         add(amountOfPassHolders);
+        add(legendGray);
+        add(amountOfTotal);
         
         title.setBounds(5, 5, 400, 20);
         legendRed.setBounds(5, 35, 130, 20);
         amountOfCars.setBounds(140, 35, 50, 20);
         legendGreen.setBounds(5, 55, 130, 20);
         amountOfPassHolders.setBounds(140, 55, 50, 20);
+        legendGray.setBounds(5, 75, 130, 20);
+        amountOfTotal.setBounds(140, 75, 50, 20);
     }
     
     /**
@@ -64,9 +73,11 @@ public class StatPieView extends AbstractView {
 
     	amountCars = carPark.getTotalCars();
     	amountPassHolders = carPark.getTotalPassHolders();
+    	amountTotal = amountCars + amountPassHolders;
 
         amountOfCars.setText("" + amountCars);
         amountOfPassHolders.setText("" + amountPassHolders);
+        amountOfTotal.setText("" + amountTotal + "/540");
 
         setVisible(true);
         super.updateView();
