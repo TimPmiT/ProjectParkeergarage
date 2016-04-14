@@ -32,7 +32,7 @@ public class SettingsController extends AbstractController implements ActionList
 	/**
 	 * The constructor of the class creates the buttons and puts them on the JPanel.
 	 * 
-	 * @param life The model belonging to this controller.
+	 * @param carPark The model belonging to this controller.
 	 */
 	public SettingsController(CarParkLogic carPark) {
 		super(carPark);

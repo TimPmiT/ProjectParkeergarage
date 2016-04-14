@@ -39,6 +39,9 @@ public class CarParkLogic extends AbstractModel {
     int totalCars; // amount of no member cars in car park 
     int totalPassHolders; // amount of members in car park
     int totalReservations; // amount of cars with reservation in car park
+    
+    //DayView Info
+    String currentDay; // Keeps track what day it currently is in a String
 
     /**
      * Constructor of the CarPark. It initializes the fields and creates the
@@ -72,6 +75,7 @@ public class CarParkLogic extends AbstractModel {
 
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
         
+        currentDay = "Monday";
     }
 
     /**
@@ -580,6 +584,20 @@ public class CarParkLogic extends AbstractModel {
      */
     public int getTotalReservations() {
         return totalReservations;
+    }
+    
+    /**
+     * @return currentDay The day in a String form
+     */
+    public String getCurrentDay(){
+    	return currentDay;
+    }
+    
+    /**
+     * @param newDay The new day in a String format
+     */
+    public void setCurrentDay(String newDay){
+    	currentDay = newDay;
     }
 }
 

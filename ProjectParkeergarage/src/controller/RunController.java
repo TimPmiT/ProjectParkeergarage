@@ -26,7 +26,7 @@ public class RunController extends AbstractController implements ActionListener 
 	/**
 	 * The constructor of the class creates the buttons and puts them on the JPanel.
 	 * 
-	 * @param life The model belonging to this controller.
+	 * @param carPark The model belonging to this controller.
 	 */
 	public RunController(CarParkLogic carPark) {
 		super(carPark);
@@ -51,11 +51,11 @@ public class RunController extends AbstractController implements ActionListener 
 		add(stop);
 		
 		stepOne.setBounds(40, 10, 100, 30);
-		labelSteps.setBounds(50, 35, 150, 30);
-		steps.setBounds(195, 40, 70, 20);
-		startSteps.setBounds(262, 35, 100, 30);
-		start.setBounds(400, 10, 130, 30);
-		stop.setBounds(550, 10, 130, 30);
+		labelSteps.setBounds(40, 37, 150, 30);
+		steps.setBounds(180, 44, 70, 20);
+		startSteps.setBounds(259, 39, 100, 30);
+		start.setBounds(405, 10, 130, 30);
+		stop.setBounds(555, 10, 130, 30);
 
 		setVisible(true);
 	}

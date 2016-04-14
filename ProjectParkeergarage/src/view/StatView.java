@@ -39,7 +39,7 @@ public class StatView extends AbstractView {
     public StatView(CarParkLogic model) {
         super(model);
 
-        this.size = new Dimension(100, 100);
+        //this.size = new Dimension(100, 100);
 
         title = new JLabel("Live car park information:");
         title.setFont(new Font("SansSerif", Font.BOLD, 14));
@@ -64,15 +64,15 @@ public class StatView extends AbstractView {
         add(carsMemberExitLabel);
         add(carsInfoMembersExit);
         
-        title.setBounds(5, 20, 220, 20);
-        carsEnterLabel.setBounds(25, 55, 220, 20);
-        carsInfoEnter.setBounds(90, 69, 140, 20);
-        carsPayLabel.setBounds(27, 90, 220, 20);
-        carsInfoPay.setBounds(90, 104, 140, 20);
-        carsExitLabel.setBounds(0, 125, 220, 20);
-        carsInfoExit.setBounds(90, 138, 140, 20);
-        carsMemberExitLabel.setBounds(2, 160, 250, 20);
-        carsInfoMembersExit.setBounds(90, 173, 140, 20);
+        title.setBounds(5, 0, 220, 20);
+        carsEnterLabel.setBounds(25, 35, 220, 20);
+        carsInfoEnter.setBounds(90, 49, 140, 20);
+        carsPayLabel.setBounds(27, 70, 220, 20);
+        carsInfoPay.setBounds(90, 84, 140, 20);
+        carsExitLabel.setBounds(0, 105, 220, 20);
+        carsInfoExit.setBounds(90, 118, 140, 20);
+        carsMemberExitLabel.setBounds(2, 140, 250, 20);
+        carsInfoMembersExit.setBounds(90, 153, 140, 20);
     }
 
     /**
