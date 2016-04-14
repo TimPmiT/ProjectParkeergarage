@@ -37,15 +37,15 @@ public class SettingsController extends AbstractController implements ActionList
 	public SettingsController(CarParkLogic carPark) {
 		super(carPark);
 		setSize(100, 300);
-		changeEnterSpeed = new JLabel ("Change entering speed");
+		changeEnterSpeed = new JLabel ("Change entering speed:");
 		enterSpeed = new JTextField();
 		setChangeEnter =new JButton("Set entering speed");
 		setChangeEnter.addActionListener(this);
-		changePaySpeed = new JLabel ("Change payment speed");
+		changePaySpeed = new JLabel ("Change payment speed:");
 		paySpeed = new JTextField();
 		setChangePay =new JButton("Set payment speed");
 		setChangePay.addActionListener(this);
-		changeExitSpeed = new JLabel("Change exit speed");
+		changeExitSpeed = new JLabel("Change exit speed:");
 		exitSpeed = new JTextField();
 		setChangeExit = new JButton("Set exiting speed");
 		setChangeExit.addActionListener(this);
@@ -92,10 +92,9 @@ public class SettingsController extends AbstractController implements ActionList
 		
 		if (e.getSource() == setChangePay) {
 			try {
-				int speedPayment = parseSpeedEntering();	
+				int speedPayment = parseSpeedPayment();	
 				if (speedPayment < 0 || speedPayment > 20) throw new SimException("Illegal number of steps");
 				model.setPaySpeed(speedPayment);
-				System.out.println("paymentSpeed: " + model.getPaySpeed());
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -107,7 +106,6 @@ public class SettingsController extends AbstractController implements ActionList
 				int speedExiting = parseSpeedExiting();				
 				if (speedExiting < 0 || speedExiting > 20) throw new SimException("Illegal number of steps");
 				model.setExitSpeed(speedExiting);
-				System.out.println("exitSpeed: " + model.getExitSpeed());
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}

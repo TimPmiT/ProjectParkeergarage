@@ -1,10 +1,5 @@
 package model;
 
-import model.*;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Random; 
 
 /**
@@ -29,8 +24,6 @@ public class CarParkLogic extends AbstractModel {
     private int hour = 0;
     private int minute = 0;
 
-    private int tickPause = 100;
-
     int weekDayArrivals= 50; // average number of arriving cars per hour
     int weekendArrivals = 90; // average number of arriving cars per hour
 
@@ -42,8 +35,10 @@ public class CarParkLogic extends AbstractModel {
     int numberOfEnteringCars; // how many cars are in entranceCarQueue
     int numberOfPayingCars; // how many cars are in paymentCarQueue
     int numberOfExitingCars; // how many cars are in exitCarQueue
+    int numberOfMembersExiting; // how many cars are in the membersCarQueue
     int totalCars; // amount of no member cars in car park 
     int totalPassHolders; // amount of members in car park
+    int totalReservations; // amount of cars with reservation in car park
 
     /**
      * Constructor of the CarPark. It initializes the fields and creates the
@@ -70,8 +65,10 @@ public class CarParkLogic extends AbstractModel {
         numberOfEnteringCars = 0;
         numberOfPayingCars = 0;
         numberOfExitingCars = 0;
+        numberOfMembersExiting = 0;
         totalCars = 0;
         totalPassHolders = 0;
+        totalReservations = 0;
 
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
         
@@ -309,7 +306,7 @@ public class CarParkLogic extends AbstractModel {
             for (int i = 0; i < numberOfReservationsPerMinute ; i++) {
                 Car car = new ReservationHolder();
                 numberOfEnteringCars++;
-                totalCars++;
+                totalReservations++;
                 entranceCarQueue.addCar(car);
             }
             
@@ -371,8 +368,14 @@ public class CarParkLogic extends AbstractModel {
             	
             	
             } else if(car instanceof ParkingPassHolder || car instanceof ReservationHolder) { 
-                membersCarQueue.addCar(car);
+                numberOfMembersExiting++;
+            	membersCarQueue.addCar(car);
                 this.removeCarAt(car.getLocation());
+                if (car instanceof ParkingPassHolder) {
+                	totalPassHolders--;
+                } else {
+                	totalReservations--;
+                }
                 break;
             }
             
@@ -394,7 +397,7 @@ public class CarParkLogic extends AbstractModel {
             super.notifyViews(); // TODO wil ik dit toevoegen? Koen had dit
             exitCarQueue.addCar(car);
             numberOfExitingCars++;
-
+            totalCars--;
             super.notifyViews(); // TODO wil ik dit toevoegen? Koen had dit
         }
         
@@ -405,7 +408,6 @@ public class CarParkLogic extends AbstractModel {
             if (car == null) {
                 break;
             } else {
-                totalCars--;
                 numberOfExitingCars--;	
             }
             super.notifyViews(); // TODO wil ik dit toevoegen? Koen had dit
@@ -418,7 +420,7 @@ public class CarParkLogic extends AbstractModel {
             if (car == null) {
                 break;
             } else {
-                totalPassHolders--;
+            	numberOfMembersExiting--;
             }
             super.notifyViews(); // TODO wil ik dit toevoegen? Koen had dit
             // Bye!
@@ -521,6 +523,17 @@ public class CarParkLogic extends AbstractModel {
     }
     
     /**
+     * Set steps in the simulator
+     *
+     * @param steps Amount of steps we should do
+     */
+    public void setSteps(int steps) {
+        for(int i = 0; i < steps; i++) {
+            tick();
+        }
+    }
+    
+    /**
      * @return numberOfEnteringCars
      */
     public int getNumberOfEntering() {
@@ -542,6 +555,13 @@ public class CarParkLogic extends AbstractModel {
     }
     
     /**
+     * @return numberOfExitingCars
+     */
+    public int getNumberOfExitingMembers() {
+        return numberOfMembersExiting;
+    }
+    
+    /**
      * @return totalCars Return total number of no member cars in car park
      */
     public int getTotalCars() {
@@ -553,6 +573,13 @@ public class CarParkLogic extends AbstractModel {
      */
     public int getTotalPassHolders() {
         return totalPassHolders;
+    }
+    
+    /**
+     * @return totalCars Return total number of members in car park
+     */
+    public int getTotalReservations() {
+        return totalReservations;
     }
 }
 

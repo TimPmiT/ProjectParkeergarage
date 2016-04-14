@@ -21,6 +21,7 @@ public class PieView extends AbstractView {
 	private int y;
 	private int amountCars;
 	private int amountPassHolders;
+	private int amountReservations;
 	private Image pieViewImage;
 	private static final int WIDTH_ARC = 200;
 	private static final int HEIGHT_ARC = 200;
@@ -45,8 +46,10 @@ public class PieView extends AbstractView {
         
     }
 
-    // TODO Volgens mij moet dit in de methode updateview maar dan heeft ie geen
-    // g graphics meer om op te tekenen, sooooo, what to do
+    @Override
+    /**
+     * Scaling the pieViewImage.
+     */
     public void paintComponent(Graphics g) {
     	if (pieViewImage == null) {
     		return;
@@ -62,11 +65,13 @@ public class PieView extends AbstractView {
     
     /**
      * Get's called by the super model class when something needs to be updated.
+     * Creating the pie graph of cars, cars of members and cars of people with reservations.
      */
     public void updateView() {
     	CarParkLogic carPark = (CarParkLogic) super.model;
    		amountCars = carPark.getTotalCars();
    		amountPassHolders = carPark.getTotalPassHolders();
+   		amountReservations = carPark.getTotalReservations();
    		
     	if (!size.equals(getSize())) {
     		size = getSize();
@@ -77,24 +82,28 @@ public class PieView extends AbstractView {
     	
     	// Background of pie graph
     	graphics.setColor(Color.WHITE);
-    	graphics.fillRect(x, y, WIDTH_ARC+10, HEIGHT_ARC+10);
+    	graphics.fillRect(x+5, y, WIDTH_ARC+10, HEIGHT_ARC+10);
     	graphics.setColor(Color.LIGHT_GRAY);
-    	graphics.fillOval(x+5, y+5, WIDTH_ARC, HEIGHT_ARC);
-    	
+    	graphics.fillOval(x+10, y+5, WIDTH_ARC, HEIGHT_ARC);
     	
 		// Slice 1 \\
 		// methode van maken TODO 
 		int procent = (amountCars * PERCENT) / MAX_CARS;
 		int gradenHoek2 = ((procent * MAX_DEGREES) / PERCENT);
 		graphics.setColor(Color.RED);
-		graphics.fillArc(x+5, y+5, WIDTH_ARC, HEIGHT_ARC, gradenHoekStart, gradenHoek2);
+		graphics.fillArc(x+10, y+5, WIDTH_ARC, HEIGHT_ARC, gradenHoekStart, gradenHoek2);
 		
 		// Slice 2 \\
 		int procent2 = ((amountPassHolders * PERCENT) / MAX_CARS);
 		int gradenHoek3 = ((procent2 * MAX_DEGREES) / PERCENT);
-		int start = gradenHoekStart + gradenHoek2;
 		graphics.setColor(Color.GREEN);
-		graphics.fillArc(x+5, y+5, WIDTH_ARC, HEIGHT_ARC, start, gradenHoek3);
+		graphics.fillArc(x+10, y+5, WIDTH_ARC, HEIGHT_ARC, gradenHoek2, gradenHoek3);
+		
+		// Slice 3 \\
+		int procent3 = ((amountReservations * PERCENT) / MAX_CARS);
+		int gradenHoek4 = ((procent3 * MAX_DEGREES) / PERCENT);
+		graphics.setColor(Color.BLUE);
+		graphics.fillArc(x+10, y+5, WIDTH_ARC, HEIGHT_ARC, gradenHoek2+gradenHoek3, gradenHoek4);
     	
 		setVisible(true);
 	    super.updateView();

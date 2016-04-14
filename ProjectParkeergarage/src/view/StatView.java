@@ -20,12 +20,15 @@ public class StatView extends AbstractView {
     private JLabel carsEnterLabel;
     private JLabel carsPayLabel;
     private JLabel carsExitLabel;
+    private JLabel carsMemberExitLabel;
     private JLabel carsInfoEnter;
     private JLabel carsInfoPay;
     private JLabel carsInfoExit;
+    private JLabel carsInfoMembersExit;
     private int numberOfEnteringCars;
     private int numberOfPayingCars;
     private int numberOfExitingCars;
+    private int numberOfMembersExiting;
 
     /**
      * Constructor creates an instance of the StatView.
@@ -41,12 +44,14 @@ public class StatView extends AbstractView {
         title = new JLabel("Live car park information:");
         title.setFont(new Font("SansSerif", Font.BOLD, 14));
         
-        carsEnterLabel= new JLabel("Number of cars waiting to enter:");
-        carsPayLabel = new JLabel("Number of cars waiting to pay:");
-        carsExitLabel = new JLabel("Number of cars waiting to exit:");
+        carsEnterLabel= new JLabel("Cars waiting to enter:");
+        carsPayLabel = new JLabel("Cars waiting to pay:");
+        carsExitLabel = new JLabel("Cars (no members) waiting to exit:");
+        carsMemberExitLabel = new JLabel ("Cars of members waiting to exit:");
         carsInfoEnter = new JLabel("");
         carsInfoPay = new JLabel("");
         carsInfoExit  = new JLabel("");
+        carsInfoMembersExit = new JLabel ("");
 
 		this.setLayout(null);
         add(title);
@@ -56,14 +61,18 @@ public class StatView extends AbstractView {
         add(carsInfoPay);
         add(carsExitLabel);
         add(carsInfoExit);
+        add(carsMemberExitLabel);
+        add(carsInfoMembersExit);
         
-        title.setBounds(0, 5, 220, 20);
-        carsEnterLabel.setBounds(0, 55, 220, 20);
-        carsInfoEnter.setBounds(80, 70, 140, 20);
-        carsPayLabel.setBounds(0, 100, 220, 20);
-        carsInfoPay.setBounds(80, 115, 140, 20);
-        carsExitLabel.setBounds(0, 145, 220, 20);
-        carsInfoExit.setBounds(80, 160, 140, 20);
+        title.setBounds(5, 20, 220, 20);
+        carsEnterLabel.setBounds(25, 55, 220, 20);
+        carsInfoEnter.setBounds(90, 69, 140, 20);
+        carsPayLabel.setBounds(27, 90, 220, 20);
+        carsInfoPay.setBounds(90, 104, 140, 20);
+        carsExitLabel.setBounds(0, 125, 220, 20);
+        carsInfoExit.setBounds(90, 138, 140, 20);
+        carsMemberExitLabel.setBounds(2, 160, 250, 20);
+        carsInfoMembersExit.setBounds(90, 173, 140, 20);
     }
 
     /**
@@ -76,10 +85,12 @@ public class StatView extends AbstractView {
         numberOfEnteringCars = carPark.getNumberOfEntering(); 
         numberOfPayingCars = carPark.getNumberOfPaying(); 
         numberOfExitingCars = carPark.getNumberOfExiting(); 
+        numberOfMembersExiting = carPark.getNumberOfExitingMembers();
 
         carsInfoEnter.setText("" + numberOfEnteringCars);
         carsInfoPay.setText("" + numberOfPayingCars);
         carsInfoExit.setText("" + numberOfExitingCars);
+        carsInfoMembersExit.setText("" + numberOfMembersExiting);
 
         setVisible(true);
         super.updateView();

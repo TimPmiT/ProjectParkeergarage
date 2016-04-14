@@ -40,8 +40,6 @@ public abstract class AbstractModel {
 	/**
 	 * Empty methods to override in a subclass.
 	 */
-	public void setSteps(int steps) {}
-	
 	public void setEnterSpeed(int newSpeed) {}
 	public void setPaySpeed(int newSpeed){}
 	public void setExitSpeed(int newSpeed){}

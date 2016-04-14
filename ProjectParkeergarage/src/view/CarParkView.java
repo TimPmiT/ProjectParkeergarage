@@ -13,9 +13,6 @@ import java.awt.*;
 public class CarParkView extends AbstractView{
 
     private JLabel title;
-    // private JLabel totalCars;
-    // private JLabel totalPassholders;
-    // private Image carParkImage;
     private Image carParkImage;
     private Dimension size;
 
@@ -27,27 +24,21 @@ public class CarParkView extends AbstractView{
      */
     public CarParkView(CarParkLogic model) {
         super(model);
-        title = new JLabel("Representation of the car Park");
+        
+        size = new Dimension(0, 0); 
+        
+        title = new JLabel("Representation of the car park");
         title.setFont(new Font("SansSerif", Font.BOLD, 14));
-        // this.totalCars = new JLabel("Cars");
-        // this.totalPassholders = new JLabel("Pass holders");
-        size = new Dimension(0, 0); // TODO veranderen?
 
-        // Put the labels on a specific place on the jpanel.
-        title.setBounds(5, 5, 150, 10);
-        // totalPassholders.setBounds(500,5,250,10);
-        // totalCars.setBounds(270,5,150,10);
-
-
-        // Add the labels to the view.
         add(title);
-        // add(totalCars);
-        // add(totalPassholders);
+        
+       // setLayout(null);
+       // title.setBounds(200, -5, 250, 10);
     }
 
     @Override
     /**
-     * Redisplay the car park as opposed to painting it over the last one.
+     * Scaling the carParkImage.
      */
     public void paintComponent(Graphics g) {
         if (carParkImage == null) {
@@ -66,13 +57,12 @@ public class CarParkView extends AbstractView{
 
     /**
      * Notify the model that applies to the view that the view should be updated.
+     * Creating a visual representation of the car park with cars entering and leaving
+     * when updateView() is called.
      */
     public void updateView() {
 
         CarParkLogic carPark = (CarParkLogic) super.model;
-
-        // totalCars.setText(Language.get("cars")+ carPark.getTotalCarIndex());
-        // totalPassholders.setText(Language.get("pass")+carPark.getTotalPassholderIndex());
         
         // Create a new car park image if the size has changed.
         if (!size.equals(getSize())) {
@@ -95,7 +85,6 @@ public class CarParkView extends AbstractView{
                     	color = Color.white;
                     } else if(car instanceof ParkingPassHolder) {
                     	color = Color.green;
-                    	//blue, week 2 reservation people 
                     } else if(car instanceof ReservationHolder){
                     	color = Color.blue; 
                     } else {

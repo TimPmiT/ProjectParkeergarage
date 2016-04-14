@@ -14,14 +14,12 @@ import view.*;
  */
 public class CarPark {
 	private JFrame screen;
-//	private AbstractView fieldView;
 	private AbstractView statView;
 	private AbstractView carParkView;
+	private AbstractView floorLabelView;
 	private AbstractView pieView;
 	private AbstractView statPieView;
-//	private LifeLogic lifelogic;
     private CarParkLogic carPark;
-//	private AbstractController initController;
     private AbstractController runController;
     private AbstractController settingsController;
     
@@ -33,37 +31,35 @@ public class CarPark {
 	 * It sets the values (title, layout, size) for this screen, fills it and then makes it visible. 
 	 */
 	public CarPark() {
-//		lifelogic=new LifeLogic();
 		carPark = new CarParkLogic(3, 6, 30);
-//		initController = new InitController(lifelogic);
 		runController = new RunController(carPark);
 		settingsController = new SettingsController(carPark);
 		carParkView = new CarParkView(carPark);
+		floorLabelView = new FloorLabelView(carPark);
 		pieView = new PieView(carPark);
 		statPieView = new StatPieView(carPark);
-//		fieldView = new FieldView(lifelogic);
 		statView = new StatView(carPark);
 		
 		screen=new JFrame("Car park simulation");
 		screen.setSize(1000, 1000);
 //		screen.setResizable(false);
 		screen.setLayout(null);
-//		screen.getContentPane().add(fieldView);
 		screen.getContentPane().add(statView);
 		screen.getContentPane().add(carParkView);
+		screen.getContentPane().add(floorLabelView);
 		screen.getContentPane().add(pieView);
 		screen.getContentPane().add(statPieView);
 		screen.getContentPane().add(runController);
 		screen.getContentPane().add(settingsController);
-//		screen.getContentPane().add(initController);
-//		fieldView.setBounds(10, 10, 200, 200);
-		statView.setBounds(50, 390, 220, 300);
-		carParkView.setBounds(50, 10, 700, 300);
-		pieView.setBounds(300, 390, 400, 210);
-		statPieView.setBounds(300, 600, 400, 150);
-		runController.setBounds(0, 320, 700, 50);
+
+		statView.setBounds(50, 410, 250, 300);
+		carParkView.setBounds(50, 10, 700, 330);
+		//floorLabelView.setBounds(0, 320, 700, 50);
+		pieView.setBounds(300, 410, 390, 210);
+		statPieView.setBounds(300, 620, 410, 150);
+		runController.setBounds(0, 335, 750, 80);
 		settingsController.setBounds(760, 10, 200, 300);
-//		initController.setBounds(440, 10, 90, 130);
+
 		screen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		screen.setVisible(true);
 		

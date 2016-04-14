@@ -1,7 +1,5 @@
 package model;
 
-import model.*;
-
 /**
  * This class is used to create a certain type of Car; AdHocCar.
  *

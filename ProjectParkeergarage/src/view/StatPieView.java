@@ -18,11 +18,14 @@ public class StatPieView extends AbstractView {
     private JLabel amountOfCars;
     private JLabel legendGreen;
     private JLabel amountOfPassHolders;
+    private JLabel legendBlue;
+    private JLabel amountOfReservations;
     private JLabel legendGray;
     private JLabel amountOfTotal;
 
 	private int amountCars;
 	private int amountPassHolders;
+	private int amountReservations;
 	private int amountTotal;
 
     /**
@@ -43,6 +46,8 @@ public class StatPieView extends AbstractView {
         amountOfCars = new JLabel("");
         legendGreen = new JLabel("GREEN Pass holders:");
         amountOfPassHolders = new JLabel("");
+        legendBlue = new JLabel("BLUE    Reservations:");
+        amountOfReservations = new JLabel("");
         legendGray = new JLabel("GRAY   Total:");
         amountOfTotal = new JLabel("");
 
@@ -52,6 +57,8 @@ public class StatPieView extends AbstractView {
         add(amountOfCars);
         add(legendGreen);
         add(amountOfPassHolders);
+        add(legendBlue);
+        add(amountOfReservations);
         add(legendGray);
         add(amountOfTotal);
         
@@ -60,8 +67,10 @@ public class StatPieView extends AbstractView {
         amountOfCars.setBounds(140, 35, 50, 20);
         legendGreen.setBounds(5, 55, 130, 20);
         amountOfPassHolders.setBounds(140, 55, 50, 20);
-        legendGray.setBounds(5, 75, 130, 20);
-        amountOfTotal.setBounds(140, 75, 50, 20);
+        legendBlue.setBounds(5, 75, 130, 20);
+        amountOfReservations.setBounds(140, 75, 50, 20);
+        legendGray.setBounds(5, 95, 130, 20);
+        amountOfTotal.setBounds(140, 95, 100, 20);
     }
     
     /**
@@ -73,10 +82,12 @@ public class StatPieView extends AbstractView {
 
     	amountCars = carPark.getTotalCars();
     	amountPassHolders = carPark.getTotalPassHolders();
-    	amountTotal = amountCars + amountPassHolders;
+    	amountReservations = carPark.getTotalReservations();
+    	amountTotal = amountCars + amountPassHolders + amountReservations;
 
         amountOfCars.setText("" + amountCars);
         amountOfPassHolders.setText("" + amountPassHolders);
+        amountOfReservations.setText("" + amountReservations);
         amountOfTotal.setText("" + amountTotal + "/540");
 
         setVisible(true);

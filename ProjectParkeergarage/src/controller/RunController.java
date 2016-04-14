@@ -17,10 +17,11 @@ import javax.swing.*;
 public class RunController extends AbstractController implements ActionListener {
 	private static final long serialVersionUID = -8776795932665582315L;
 	private JButton stepOne;
+	private JLabel labelSteps;
 	private JTextField steps;
 	private JButton startSteps;
-	private JButton stopSteps;
-	private boolean run;
+	private JButton start;
+	private JButton stop;
 	
 	/**
 	 * The constructor of the class creates the buttons and puts them on the JPanel.
@@ -30,23 +31,31 @@ public class RunController extends AbstractController implements ActionListener 
 	public RunController(CarParkLogic carPark) {
 		super(carPark);
 		setSize(450, 50);
-		stepOne=new JButton("Step +1");
+		stepOne = new JButton("Step +1");
 		stepOne.addActionListener(this);
-		steps=new JTextField();
-		startSteps=new JButton("Start");
+		labelSteps = new JLabel("Enter number of steps:");
+		steps = new JTextField();
+		startSteps = new JButton("Set steps");
 		startSteps.addActionListener(this);
-		stopSteps=new JButton("Stop");
-		stopSteps.addActionListener(this);
+		start = new JButton("Start simulation");
+		start.addActionListener(this);
+		stop = new JButton("Stop simulation");
+		stop.addActionListener(this);
 		
 		this.setLayout(null);
 		add(stepOne);
+		add(labelSteps);
 		add(steps);
 		add(startSteps);
-		add(stopSteps);
-		stepOne.setBounds(220, 10, 100, 30);
-		steps.setBounds(330, 10, 70, 30);
-		startSteps.setBounds(420, 10, 70, 30);
-		stopSteps.setBounds(510, 10, 70, 30);
+		add(start);
+		add(stop);
+		
+		stepOne.setBounds(40, 10, 100, 30);
+		labelSteps.setBounds(50, 35, 150, 30);
+		steps.setBounds(195, 40, 70, 20);
+		startSteps.setBounds(262, 35, 100, 30);
+		start.setBounds(400, 10, 130, 30);
+		stop.setBounds(550, 10, 130, 30);
 
 		setVisible(true);
 	}
@@ -70,27 +79,33 @@ public class RunController extends AbstractController implements ActionListener 
 	 * Saving the input to the model carPark.
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource()==stepOne) {
+		CarParkLogic carPark = (CarParkLogic) super.model;
+		
+		if (e.getSource() == stepOne) {
 			try {
-				model.tick();
+				carPark.tick();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 			return;
 		}
 		
-		if (e.getSource()==startSteps) {
+		if (e.getSource() == startSteps) {
 			try {
-				int steps=parseSteps();				
+				int steps = parseSteps();				
 				if (steps<1 || steps>1000) throw new SimException("Illegal number of steps");
-				model.setSteps(steps);
+				carPark.setSteps(steps);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 			return;
 		}
 		
-		if (e.getSource()==stopSteps) {
+		if (e.getSource() == start) {
+			CarPark.run = true;
+		}
+		
+		if (e.getSource() == stop) {
 			CarPark.run = false;
 		}
 		
@@ -102,6 +117,8 @@ public class RunController extends AbstractController implements ActionListener 
 	 * @throws NumberFormatException
 	 */
 	private int parseSteps() throws NumberFormatException {
-		return Integer.parseInt(steps.getText());
+		int text = Integer.parseInt(steps.getText());
+		steps.setText(""); // emptying the text field after storing the value
+		return text;
 	}
 }
