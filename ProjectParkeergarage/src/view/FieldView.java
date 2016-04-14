@@ -2,7 +2,8 @@ package view;
 
 
 import java.awt.*;
-import logic.*;
+
+import model.*;
 
 public class FieldView extends AbstractView {
 	private static final long serialVersionUID = -8200251211832614969L;
@@ -28,3 +29,4 @@ public class FieldView extends AbstractView {
 	}
 	
 }
+

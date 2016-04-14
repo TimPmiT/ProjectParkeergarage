@@ -1,11 +1,11 @@
 package controller;
 
-import logic.*;
-
 import javax.swing.*;
 
+import model.*;
+
 /**
- * AbstractController is a class that all controllers should extend.
+ * All controllers should extend AbstractController.
  * Initializes the variable life with a LifeLogic object.
  * 
  * @authors Femke Hoornveld, Koen Gorter
@@ -13,13 +13,13 @@ import javax.swing.*;
  *
  */
 public abstract class AbstractController extends JPanel {
-	protected LifeLogic life;
+	protected AbstractModel model;
 	
 	/**
 	 * The constructor initializes the instance variable life with a model that applies to this controller.
 	 * @param life Model life is ascribed to the instance variable life
 	 */
-	public AbstractController(LifeLogic life) {
-		this.life=life;
+	public AbstractController(AbstractModel model) {
+		this.model = model;
 	}
 }

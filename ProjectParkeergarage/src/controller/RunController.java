@@ -1,9 +1,7 @@
 package controller;
 
-import logic.*;
-
 import main.*;
-
+import model.*;
 import exception.*;
 
 import java.awt.event.*;
@@ -13,7 +11,7 @@ import javax.swing.*;
  * This class creates the buttons stepOne, startSteps and stopSteps, and the text field steps.
  * It catches the input the input is used on the model, and the view will be updated accordingly to the model.
  * 
- * @author Femke Hoornveld, Koen Gorter
+ * @author Femke Hoornveld
  * @version 1.0 (11-04-2016)
  */
 public class RunController extends AbstractController implements ActionListener {
@@ -22,14 +20,15 @@ public class RunController extends AbstractController implements ActionListener 
 	private JTextField steps;
 	private JButton startSteps;
 	private JButton stopSteps;
+	private boolean run;
 	
 	/**
 	 * The constructor of the class creates the buttons and puts them on the JPanel.
 	 * 
 	 * @param life The model belonging to this controller.
 	 */
-	public RunController(LifeLogic life) {
-		super(life);
+	public RunController(CarParkLogic carPark) {
+		super(carPark);
 		setSize(450, 50);
 		stepOne=new JButton("Step +1");
 		stepOne.addActionListener(this);
@@ -51,6 +50,19 @@ public class RunController extends AbstractController implements ActionListener 
 
 		setVisible(true);
 	}
+	
+    /**
+     * Set steps in the simulator
+     *
+     * @param steps Amount of steps we should do
+     */
+    private void setSteps(int steps) {
+        CarParkLogic carPark = (CarParkLogic) model;
+
+        for(int i = 0; i < steps; i++) {
+            carPark.tick();
+        }
+    }
 
 	@Override
 	/**
@@ -60,8 +72,8 @@ public class RunController extends AbstractController implements ActionListener 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==stepOne) {
 			try {
-				life.doStep();
-			} catch (LifeException ex) {
+				model.tick();
+			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 			return;
@@ -70,8 +82,8 @@ public class RunController extends AbstractController implements ActionListener 
 		if (e.getSource()==startSteps) {
 			try {
 				int steps=parseSteps();				
-				if (steps<1 || steps>1000) throw new LifeException("Illegal number of steps");
-				life.doSteps(steps);
+				if (steps<1 || steps>1000) throw new SimException("Illegal number of steps");
+				model.setSteps(steps);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -79,7 +91,7 @@ public class RunController extends AbstractController implements ActionListener 
 		}
 		
 		if (e.getSource()==stopSteps) {
-			life.stopSteps();
+			Life.run = false;
 		}
 		
 	}

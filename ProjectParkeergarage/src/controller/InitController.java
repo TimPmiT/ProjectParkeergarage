@@ -1,9 +1,9 @@
 package controller;
 
-import logic.*;
-
 import java.awt.event.*;
 import javax.swing.*;
+
+import model.*;
 
 /**
  * This class creates the button init, and the text field size and degree.

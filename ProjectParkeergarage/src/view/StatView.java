@@ -2,7 +2,7 @@ package view;
 
 import java.awt.*;
 
-import logic.*;
+import model.*;
 
 public class StatView extends AbstractView {
 	private static final long serialVersionUID = -7891669840482084995L;
@@ -31,3 +31,4 @@ public class StatView extends AbstractView {
 		g.fillArc(10, 10, 180, 180, angle, 360-angle);
 	}
 }
+
