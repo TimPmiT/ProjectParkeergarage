@@ -90,12 +90,12 @@ public class CarParkView extends AbstractView{
                     Car car = carPark.getCarAt(location);
                     Color color;
 
-                    if(car instanceof ParkingPassHolder){
+                    if (car == null) {
+                    	color = Color.WHITE;
+                    } else if (car instanceof ParkingPassHolder) {
                         color = Color.GREEN;
-                    } else if(car != null){
-                        color = Color.RED;
                     } else {
-                        color = Color.WHITE;
+                        color = Color.RED;
                     }
 
                     drawPlace(graphics, location, color);
